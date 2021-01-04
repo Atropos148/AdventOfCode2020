@@ -828,6 +828,9 @@ FBFFFBFLLL'''
 	total_rows: int = 128
 	total_columns: int = 8
 
+	existing_rows = []
+	used_seat_ids: list = []
+
 	plane_rows: list = []
 	for row in range(total_rows):
 		plane_rows.append(row)
@@ -838,32 +841,41 @@ FBFFFBFLLL'''
 
 	test_passes_raw: str = '''BFFFBBFRRR
 	FFFBBBFRRR
-	BBFFBBFRLL'''
+	BBFFBBFRLL
+	FBFBBFFRLR'''
 
-	for boarding_pass in test_passes_raw.split("\n\t"):
+	# for boarding_pass in test_passes_raw.split("\n\t"):
+	for boarding_pass in input_passes_clean:
 		seat_row_raw: str = boarding_pass[:-3]
 		seat_column_raw: str = boarding_pass[-3:]
 
 		row_id = find_row(seat_row_raw, total_rows, plane_rows)
 		column_id = find_column(seat_column_raw, total_columns, plane_columns)
+		seat_id = calculate_seat_id(row_id, column_id)
 
-		print(row_id, column_id, calculate_seat_id(row_id, column_id))
+		if not row_id in existing_rows:
+			existing_rows.append(row_id)
+		used_seat_ids.append(seat_id)
+
+	# print(row_id, column_id, seat_id)
+
+	print(max(used_seat_ids))
 
 
 def find_row(row_letters: str, total_rows: int, plane_rows: list) -> int:
 	current_rows_count: int = total_rows
 	current_rows: list = plane_rows
-	print(row_letters)
+	# print(row_letters)
 	for character in row_letters:
 		if character == "B":
-			slicer: int = int(current_rows_count / 2) + 1
+			slicer: int = int(current_rows_count / 2)
 			# print(current_rows[-slicer:])
 			current_rows_count = int(current_rows_count / 2)
 			# back
 			current_rows = current_rows[-slicer:]
 
 		elif character == "F":
-			slicer: int = int(current_rows_count / 2) + 1
+			slicer: int = int(current_rows_count / 2)
 			# print(current_rows[:slicer])
 			current_rows_count = int(current_rows_count / 2)
 			# front
