@@ -1,5 +1,5 @@
 def main():
-	input_passes: str = '''FFFFBFBLLR
+	input_passes_raw: str = '''FFFFBFBLLR
 BFBFFBBLLR
 BBFFFFBLRR
 FBFBFFFRLL
@@ -824,9 +824,75 @@ FBBFFBFLLL
 BBFFBFFRLL
 FBFFFBFLLL'''
 
-	seat_row_raw: str = input_passes.split("\n")[0][:-3]
-	seat_column_raw: str = input_passes.split("\n")[0][-3:]
-	print(seat_row_raw, seat_column_raw)
+	input_passes_clean = input_passes_raw.split("\n")
+	total_rows: int = 128
+	total_columns: int = 8
+
+	plane_rows: list = []
+	for row in range(total_rows):
+		plane_rows.append(row)
+
+	plane_columns: list = []
+	for column in range(total_columns):
+		plane_columns.append(column)
+
+	test_passes_raw: str = '''BFFFBBFRRR
+	FFFBBBFRRR
+	BBFFBBFRLL'''
+
+	for boarding_pass in test_passes_raw.split("\n\t"):
+		seat_row_raw: str = boarding_pass[:-3]
+		seat_column_raw: str = boarding_pass[-3:]
+
+		row_id = find_row(seat_row_raw, total_rows, plane_rows)
+		column_id = find_column(seat_column_raw, total_columns, plane_columns)
+
+		print(row_id, column_id, calculate_seat_id(row_id, column_id))
+
+
+def find_row(row_letters: str, total_rows: int, plane_rows: list) -> int:
+	current_rows_count: int = total_rows
+	current_rows: list = plane_rows
+	print(row_letters)
+	for character in row_letters:
+		if character == "B":
+			slicer: int = int(current_rows_count / 2) + 1
+			# print(current_rows[-slicer:])
+			current_rows_count = int(current_rows_count / 2)
+			# back
+			current_rows = current_rows[-slicer:]
+
+		elif character == "F":
+			slicer: int = int(current_rows_count / 2) + 1
+			# print(current_rows[:slicer])
+			current_rows_count = int(current_rows_count / 2)
+			# front
+			current_rows = current_rows[:slicer]
+
+	return current_rows[0]
+
+
+def find_column(column_letters: str, total_columns: int, plane_columns: list) -> int:
+	current_columns_count: int = total_columns
+	current_columns: list = plane_columns
+
+	for character in column_letters:
+		if character == "R":
+			slicer: int = int(current_columns_count / 2)
+
+			current_columns_count = int(current_columns_count / 2)
+			current_columns = current_columns[-slicer:]
+		elif character == "L":
+			slicer: int = int(current_columns_count / 2)
+
+			current_columns_count = int(current_columns_count / 2)
+			current_columns = current_columns[:slicer]
+
+	return current_columns[0]
+
+
+def calculate_seat_id(row_id: int, column_id: int):
+	return (row_id * 8) + column_id
 
 
 if __name__ == '__main__':
