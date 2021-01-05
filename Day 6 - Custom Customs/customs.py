@@ -1,3 +1,6 @@
+import collections
+
+
 def main():
 	test_inputs_short: str = '''abcx
 abcy
@@ -2223,10 +2226,8 @@ epfmuhgvstibr'''
 	answers_test_cleaned: list = test_inputs_long.split("\n\n")
 	answers_real_cleaned: list = real_inputs.split("\n\n")
 
-	print(count_yes_answers_from_anyone(answers_real_cleaned))
-
-
-# print(count_yes_if_all_agree(answers_test_cleaned))
+	print(f"any yes answers: {count_yes_answers_from_anyone(answers_real_cleaned)}")
+	print(f"everyone agreees answers: {count_yes_if_all_agree(answers_real_cleaned)}")
 
 
 def count_yes_answers_from_anyone(cleaned_answers: list):
@@ -2246,25 +2247,30 @@ def count_yes_answers_from_anyone(cleaned_answers: list):
 	return total_yes_answers
 
 
-# def count_yes_if_all_agree(cleaned_answers: list):
-# 	total_yes_answers: int = 0
-#
-# 	for answer in cleaned_answers:
-# 		yes_answers_list: list = []
-# 		parts_of_answer: list = answer.split("\n")
-# 		part_answers: dict = {}
-#
-# 		for index, part in enumerate(parts_of_answer):
-# 			part_answers[index] = part
-#
-# 		for answer_part in part_answers:
-# 			for character in part_answers[answer_part]:
-# 				print(part_answers[answer_part])
-#
-# 		print()
-# 		total_yes_answers += len(yes_answers_list)
-#
-# 	return total_yes_answers
+def count_yes_if_all_agree(cleaned_answers: list):
+	total_yes_answers: int = 0
+
+	for answer in cleaned_answers:
+
+		person_answers_list: list = []
+		answers_dict: dict = {}
+
+		answer_per_person = answer.split("\n")
+		person_answers_list.append(answer_per_person)
+
+		for index, person in enumerate(person_answers_list):
+			for answer in person_answers_list[index]:
+				for character in answer:
+					if character in answers_dict:
+						answers_dict[character] += 1
+					else:
+						answers_dict[character] = 1
+
+		for answer_letter in answers_dict:
+			if answers_dict[answer_letter] == len(answer_per_person):
+				total_yes_answers += 1
+
+	return total_yes_answers
 
 
 if __name__ == '__main__':
