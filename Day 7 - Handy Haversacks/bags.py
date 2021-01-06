@@ -1,5 +1,9 @@
 def main():
-	# code for AoC 2020 Day 7: https://adventofcode.com/2020/day/7
+	"""
+	Finds how many outer bags you can use
+
+	Made for AoC 2020 Day 7: https://adventofcode.com/2020/day/7
+	"""
 
 	part_1_test_input = '''light red bags contain 1 bright white bag, 2 muted yellow bags.
 dark orange bags contain 3 bright white bags, 4 muted yellow bags.
@@ -608,8 +612,6 @@ muted white bags contain 3 muted tomato bags, 5 light black bags, 4 pale black b
 	test_bag_rules: dict = create_rules_dict(part_1_test_input)
 	real_bag_rules: dict = create_rules_dict(part_1_real_input)
 
-	print(real_bag_rules)
-
 	part_1_test_result = find_outer_bag_possibilities("shiny gold", test_bag_rules)
 	part_1_real_result = find_outer_bag_possibilities("shiny gold", real_bag_rules)
 
@@ -618,6 +620,14 @@ muted white bags contain 3 muted tomato bags, 5 light black bags, 4 pale black b
 
 
 def create_rules_dict(raw_rules_input: str) -> dict:
+	"""
+	Creates dict with rules from raw str input
+
+	:param raw_rules_input: String of written rules
+	:type raw_rules_input: str
+	:return: Dictionary with processed rules
+	:rtype: dict
+	"""
 	bag_rules: dict = {}
 	for rule_row in raw_rules_input.split(".\n"):
 		is_color: bool = True
@@ -642,6 +652,16 @@ def create_rules_dict(raw_rules_input: str) -> dict:
 
 
 def find_outer_bag_possibilities(bag_color: str, bag_rules: dict) -> int:
+	"""
+	Finds possible outer bags, based on rules and given bag color
+
+	:param bag_color: String describing chosen color
+	:param bag_rules: Dictionary of rules
+	:type bag_color: str
+	:type bag_rules: dict
+	:return: Number of all possible outer bag colors
+	:rtype: int
+	"""
 	allowed_outer_bags: list = []
 	for rule in bag_rules:
 		if bag_color in can_hold_bags(rule, bag_rules):
@@ -657,6 +677,15 @@ def find_outer_bag_possibilities(bag_color: str, bag_rules: dict) -> int:
 
 
 def can_hold_bags(rule: str, bag_rules: dict) -> dict:
+	"""
+	Returns a dict of all bags that can be held by given bag color
+
+	:param rule: Color of a given bag
+	:param bag_rules: Dictionary of rules
+	:type rule:  str
+	:type bag_rules: dict
+	:return:
+	"""
 	return bag_rules[rule]
 
 
