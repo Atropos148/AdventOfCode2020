@@ -9,28 +9,33 @@ vibrant plum bags contain 5 faded blue bags, 6 dotted black bags.
 faded blue bags contain no other bags.
 dotted black bags contain no other bags.'''
 
-	test_bag_rules: dict = {}
+	test_bag_rules: dict = create_rules_dict(part_1_test_input)
 
-	for rule_row in part_1_test_input.split(".\n"):
+	print(test_bag_rules)
+
+
+def create_rules_dict(raw_rules_input: str) -> dict:
+	bag_rules: dict = {}
+	for rule_row in raw_rules_input.split(".\n"):
 		is_color: bool = True
 		rules_for_color: str = ""
 		for rule_part in rule_row.split(" bags contain "):
 			try:
 				if is_color:
 					rules_for_color = rule_part
-					test_bag_rules[rules_for_color] = {}
+					bag_rules[rules_for_color] = {}
 				else:
 					for bag_rule in rule_part.split(", "):
 						cleaned_bag_rule = bag_rule.split()[:-1]
 						if cleaned_bag_rule[0] != "no":
 							bag_amount = cleaned_bag_rule[0]
 							bag_color = cleaned_bag_rule[1] + " " + cleaned_bag_rule[2]
-							test_bag_rules[rules_for_color][bag_color] = bag_amount
+							bag_rules[rules_for_color][bag_color] = bag_amount
 				is_color = not is_color
 			except ValueError:
 				pass
 
-	print(test_bag_rules)
+	return bag_rules
 
 
 if __name__ == '__main__':
