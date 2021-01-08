@@ -665,7 +665,7 @@ jmp +1'''
 		                                                                      number,
 		                                                                      row_index, walked_indexes,
 		                                                                      not_in_infinite_loop)
-		print(f"Current row: {clean_real_rows_part1[row_index]}, ACC: {number}, row index: {row_index}")
+	print(f"Last row: {clean_real_rows_part1[row_index]}, ACC: {number}, row index: {row_index}")
 
 
 def execute_row(row: str, accumulator: int, current_row_index: int, walked_indexes: list, infinite_test: bool):
