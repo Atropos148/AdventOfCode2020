@@ -28,9 +28,12 @@ def main():
 
 	try:
 		for _ in cleaned_test_part1:
+			if control_group_start_index + test_control_group_size < len(cleaned_test_part1):
+				tested_number = cleaned_test_part1[control_group_start_index + test_control_group_size]
+			
 			control_group, control_group_start_index = get_control_group(cleaned_test_part1, control_group_start_index,
 			                                                             test_control_group_size)
-			print(control_group)
+			print(control_group, tested_number)
 	except TypeError:
 		pass
 
