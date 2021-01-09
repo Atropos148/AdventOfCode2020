@@ -2,7 +2,7 @@ def main():
 	# Solution for Day 10 of Advent od Code 2020
 	# Link: https://adventofcode.com/2020/day/10
 
-	input_test1_part1 = '''16
+	input_test1_part1: str = '''16
 10
 15
 5
@@ -13,7 +13,7 @@ def main():
 6
 12
 4'''
-	input_test2_part1 = '''28
+	input_test2_part1: str = '''28
 33
 18
 42
@@ -44,18 +44,122 @@ def main():
 34
 10
 3'''
+	input_real_part1: str = '''99
+104
+120
+108
+67
+136
+80
+44
+129
+113
+158
+157
+89
+60
+138
+63
+35
+57
+61
+153
+116
+54
+7
+22
+133
+130
+5
+72
+2
+28
+131
+123
+55
+145
+151
+42
+98
+34
+140
+146
+100
+79
+117
+154
+9
+83
+132
+45
+43
+107
+91
+163
+86
+115
+39
+76
+36
+82
+162
+6
+27
+101
+150
+30
+110
+139
+109
+1
+64
+56
+161
+92
+62
+69
+144
+21
+147
+12
+114
+18
+137
+75
+164
+33
+152
+23
+68
+51
+8
+95
+90
+48
+29
+26
+165
+81
+13
+126
+14
+143
+15'''
 
 	cleaned_test1_part1 = input_test1_part1.split("\n")
 	cleaned_test2_part1 = input_test2_part1.split("\n")
+	cleaned_real_part_1 = input_real_part1.split("\n")
 
 	# will be used later
 	device_joltage = calculate_device_joltage(cleaned_test1_part1)
 
 	actual_adapter_list_test1 = cleaned_test1_part1
 	actual_adapter_list_test2 = cleaned_test2_part1
+	actual_adapter_list_real = cleaned_real_part_1
 
 	print(find_adapter_order(actual_adapter_list_test1))
 	print(find_adapter_order(actual_adapter_list_test2))
+	print(find_adapter_order(actual_adapter_list_real))
 
 
 def calculate_device_joltage(list_of_adapters: list) -> int:
@@ -63,7 +167,7 @@ def calculate_device_joltage(list_of_adapters: list) -> int:
 	for adapter in list_of_adapters:
 		if int(adapter) > max_joltage_adapter:
 			max_joltage_adapter = int(adapter)
-	return max_joltage_adapter + 3
+	return int(max_joltage_adapter) + 3
 
 
 def find_compatible_adapter(list_of_adapters: list, adapter_joltage: int):
@@ -108,7 +212,8 @@ def find_adapter_order(list_of_adapters: list):
 
 	# including the device itself
 	adapter_difference_results[3] += 1
-	return f"All adapters used, jolt differences are: {adapter_difference_results}"
+	return f"All adapters used, jolt differences are: {adapter_difference_results}, " \
+	       f"multiplied differences of 1 and 3: {adapter_difference_results[1] * adapter_difference_results[3]}"
 
 
 if __name__ == '__main__':
