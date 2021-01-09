@@ -15,31 +15,17 @@ def main():
 4'''
 	cleaned_test1_part1 = input_test1_part1.split("\n")
 
+	# will be used later
 	device_joltage = calculate_device_joltage(cleaned_test1_part1)
-	source_joltage = 0
 
-	current_adapter = source_joltage
 	actual_adapter_list = cleaned_test1_part1
-	adapter_difference = 0
 	adapter_difference_results: dict = {
 		1: 0,
 		2: 0,
 		3: 0,
 	}
 
-	# print(device_joltage)
-	for _ in range(len(cleaned_test1_part1)):
-		try:
-			current_adapter, actual_adapter_list, adapter_difference = find_compatible_adapter(actual_adapter_list,
-			                                                                                   current_adapter)
-			adapter_difference_results[adapter_difference] += 1
-			print(current_adapter, adapter_difference)
-		except TypeError:
-			print("One or more adapters are unused: ", actual_adapter_list)
-
-	# including the device itself
-	adapter_difference_results[3] += 1
-	print("All adapters used", adapter_difference_results)
+	print(find_adapter_order(actual_adapter_list, adapter_difference_results))
 
 
 def calculate_device_joltage(list_of_adapters: list) -> int:
@@ -59,6 +45,23 @@ def find_compatible_adapter(list_of_adapters: list, adapter_joltage: int):
 				list_of_adapters.remove(adapter)
 				adapter_difference = compatible_adapter - adapter_joltage
 				return compatible_adapter, list_of_adapters, adapter_difference
+
+
+def find_adapter_order(list_of_adapters: list, adapter_difference_results: dict):
+	actual_adapter_list = list_of_adapters
+	source_joltage = 0
+	current_adapter = source_joltage
+	for _ in range(len(list_of_adapters)):
+		try:
+			current_adapter, actual_adapter_list, adapter_difference = find_compatible_adapter(actual_adapter_list,
+			                                                                                   current_adapter)
+			adapter_difference_results[adapter_difference] += 1
+		except TypeError:
+			print("One or more adapters are unused: ", actual_adapter_list)
+
+	# including the device itself
+	adapter_difference_results[3] += 1
+	return f"All adapters used, jolt differences are: {adapter_difference_results}"
 
 
 if __name__ == '__main__':
