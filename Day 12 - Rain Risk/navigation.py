@@ -48,12 +48,8 @@ def rotate(starting_direction: str, rotation_degrees: int, rotation_direction: s
 		new_direction_index = directions.index(starting_direction) + turns_needed
 	elif rotation_direction == "L":
 		new_direction_index = directions.index(starting_direction) - turns_needed
-
-	if new_direction_index < len(directions):
-		new_direction = directions[new_direction_index]
-	else:
-		new_direction_index = len(directions) - new_direction_index
-		new_direction = directions[new_direction_index]
+	
+	new_direction = directions[new_direction_index % len(directions)]
 
 	return new_direction
 
